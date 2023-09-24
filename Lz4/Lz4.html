@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey</title>
+</head>
+<body style="font-family:Arial">
+    <style>
+        #Ribbon{
+            background-color:burlywood;
+            color:white;
+        }
+        .BeigeB{
+            border:2px dashed burlywood;
+        }
+        .BeigeT{
+            color:burlywood;
+        }
+    </style>
+    <h1 id="Ribbon">Survey for our dessert shop</h1>
+    <form oninput="x.value=parseInt(a.value)*79" action="actionpage.php" autocomplete="on" method="post" target="_self">
+        <fieldset class="BeigeB">
+            <legend class="BeigeT">About You</legend>
+            <label for="fname">First name:</label>
+            <br />
+            <input type="text" name="fname" id="fname" />
+            <br /><br />
+            <label for="lname">Last name:</label>
+            <br />
+            <input type="text" name="lname" id="lname" />
+            <br /><br />
+            <label for="dateofbirth">When where you born?</label>
+            <br />
+            <input type="date" name="dateofbirth" id="dateofbirth"/>
+            <br /><br />
+            <label for="email">Enter your email address:</label>
+            <br />
+            <input type="email" id="email" name="email"/>
+        </fieldset>
+        <br />
+        <fieldset class="BeigeB">
+            <legend class="BeigeT">Questions</legend>
+            <p>Is candy or fruit better?</p>
+            <input type="radio" name="cndorfrt" value="candy" id="cnd" />
+            <label for="cnd">Candy!</label><br />
+
+            <input type="radio" name="cndorfrt" value="fruit" id="frt" />
+            <label for="frt">Fruit!</label><br />
+
+            <p>Which desserts are your favourite?</p>
+            <input type="checkbox" name="fav1" value="tiramisu" id="fav1" />
+            <label for="fav1">Tiramisu</label><br />
+            <input type="checkbox" name="fav2" value="panna cotta" id="fav2" />
+            <label for="fav2">Panna cotta</label><br />
+            <input type="checkbox" name="fav3" value="chocolate chip cookies" id="fav3" />
+            <label for="fav3">Chocolate chip cookies</label><br />
+            <input type="checkbox" name="fav4" value="ice cream" id="fav4" />
+            <label for="fav4">Ice cream</label><br />
+            <input type="checkbox" name="fav5" value="brownie" id="fav5" />
+            <label for="fav5">Brownie</label><br />
+            <br />
+
+            <label for="water">Should water be free?</label><br />
+            <select id="water" name="water">
+                <option value="yes">Yes!</option>
+                <option value="no">No</option>
+                <option selected value="idk">I don't know...</option>
+            </select>
+            <br />
+            <br />
+            <label for="apcolor">Which color looks the most appetizing?</label><br />
+            <input list="colors" name="apcolor" id="apcolor"/>
+            <datalist id="colors">
+                <option>Red</option>
+                <option>Yellow</option>
+                <option>Green</option>
+                <option>Pink</option>
+                <option>Orange</option>
+                <option>Blue</option>
+                <option>Purple</option>
+                <option>Cyan</option>
+            </datalist>
+            <p>If you want to leave a comment or tell us your wishes use the textbox below:</p>
+            <textarea name="comment" rows="10" cols="30"></textarea>
+        </fieldset>
+        <br />
+        <fieldset class="BeigeB">
+            <legend class="BeigeT">Support</legend>
+            <label for="telephone">Give us your phone number and we'll contact you in 30 secs!</label><br />
+            <input type="tel" name="telephone" id="telephone" /><br />
+            <p>How many deserts would you like to order? Write down and we'll calculate the price! (79 UAH per serving)</p>
+            <input type="number" name="a" id="a" />
+            <span>Price: </span><output name="x" for="a"></output><span> UAH</span>
+            <br />
+            <br /><label for="slider">How much are you satisfied with our service?</label>
+            <input type="range" id="slider" name="slider" value="10" min="0" max="10" />
+            <br /><br />
+            <button type="button" onclick="alert('Contact us at support@somerandomdessertshop.com')">I have questions</button>
+        </fieldset>
+        <br /><input type="reset" value="Reset form"/><br />
+        <br /><input type="submit" value="Submit <3" />
+    </form>
+    <br />
+</body>
+</html>
