@@ -1,0 +1,95 @@
+:root {--text: #080303;
+    --background: #f5f5f5;
+    --primary: #ca2b2b;
+    --secondary: #ededed;
+    --accent: #8e97e7;}
+
+#Ribbon {
+    color: var(--background);
+    background-color: var(--primary);
+    text-align: center;
+    margin: 0;
+}
+
+.SBorder {
+    border: 2px solid var(--primary);
+}
+
+.biggertext {
+    font-size: x-large;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
+header,
+body {
+    background-color: var(--background);
+    margin: 0;
+    color: var(--text);
+}
+
+span.Grad {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+mark {
+    background-color: var(--accent);
+}
+
+section {
+    background-color: var(--secondary);
+    padding: 10px;
+    margin: 20px;
+    color: var(--text);
+}
+
+hr {
+    border: 1px solid var(--secondary);
+    margin: 0;
+}
+
+a {
+    color: var(--accent);
+}
+
+nav {
+    text-align: center;
+    background-color: var(--secondary);
+    padding: 10px 10px;
+}
+
+footer {
+    padding: 20px 20px;
+    background-color: var(--secondary);
+    margin: 0;
+    text-align: center;
+}
+
+aside {
+    float: right;
+    width: 20%;
+    background-color: var(--accent);
+    padding: 10px;
+}
+
+table.lighttext tbody {
+    color: var(--background);
+}
+
+.darktext {
+    color: var(--text);
+}
+
+button[type="button"]{
+    border-style: none;
+    background-color: var(--text);
+    font-size: 20px;
+    padding: 10px;
+    font-weight: 900;
+}
