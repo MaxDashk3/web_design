@@ -1,0 +1,178 @@
+:root {
+    --text: #080303;
+    --background: #f5f5f5;
+    --primary: #ca2b2b;
+    --secondary: #ededed;
+    --accent: #8e97e7;
+}
+
+.col-1 {
+    width: 8.33%;
+}
+
+.col-2 {
+    width: 16.66%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+.col-4 {
+    width: 33.33%;
+}
+
+.col-5 {
+    width: 41.66%;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-7 {
+    width: 58.33%;
+}
+
+.col-8 {
+    width: 66.66%;
+}
+
+.col-9 {
+    width: 75%;
+}
+
+.col-10 {
+    width: 83.33%;
+}
+
+.col-11 {
+    width: 91.66%;
+}
+
+.col-12 {
+    width: 100%;
+}
+
+[class*="col-"] {
+    float: left;
+
+}
+
+#Ribbon {
+    color: var(--background);
+    background-color: var(--primary);
+    text-align: center;
+    margin: 0;
+    font-size: 25px !important;
+}
+
+.SBorder {
+    border: 2px solid var(--primary);
+}
+
+.image {
+    max-width: max(60%, 350px);
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header,
+body {
+    background-color: var(--background);
+    margin: 0;
+    color: var(--text);
+}
+
+span.Grad {
+    background: linear-gradient(120deg, var(--primary), var(--accent));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+mark {
+    background-color: var(--accent);
+}
+
+section {
+    background-color: var(--secondary);
+    padding: 10px;
+    margin: 0;
+    color: var(--text);
+}
+
+hr {
+    border: 1px solid var(--text);
+    margin: 0;
+}
+
+a {
+    color: var(--accent);
+}
+
+nav {
+    text-align: center;
+    background-color: var(--secondary);
+    padding: 10px 10px;
+}
+
+footer {
+    padding: 20px 20px;
+    background-color: var(--secondary);
+    margin: 0;
+    text-align: center;
+}
+
+aside {
+    background-color: var(--accent);
+    padding: 10px;
+}
+
+table.lighttext tbody {
+    color: var(--background);
+}
+
+.darktext {
+    color: var(--text);
+}
+
+[type="button"] {
+    border-style: none;
+    background-color: var(--text);
+    font-size: 20px;
+    font-weight: 900;
+    width: calc(100% - 25px);
+    padding: 10px 0;
+    cursor: pointer;
+    margin: 4px calc(25px / 2)
+}
+
+section::first-letter {
+    font-size: 40px;
+}
+
+[type="button"]:hover {
+    background-color: var(--background);
+}
+
+::selection {
+    background-color: var(--primary);
+    color: var(--background);
+}
+
+article~hr {
+    border-color: var(--secondary);
+}
+
+p+section {
+    background: linear-gradient(180deg, var(--primary) -100px, var(--secondary) 50px);
+}
+
+@media only screen and (max-width: 600px) {
+    [class*="col-"] {
+        width: 100%;
+    }
+}
