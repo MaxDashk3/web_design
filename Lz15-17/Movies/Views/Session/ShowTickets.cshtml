@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Movies.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<h1>Tickets</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Movie
+            </th>
+            <th>
+                Date and time
+            </th>
+            <th>
+                Row
+            </th>
+            <th>
+                Seat
+            </th>
+            <th>
+                Hall
+            </th>
+            <th>
+                Price
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a href="/Session/MovieDetails/@item.Session.Movie.Id">@item.Session.Movie.Title</a> 
+            </td>
+            <td>
+                @item.Session.TimeDate
+            </td>
+            <td>
+                @item.SeatRow
+            </td>
+            <td>
+                @item.SeatNum
+            </td>
+            <td>
+                @item.Session.Hall.Number
+            </td>
+            <td>
+                @item.Session.Price
+            </td>
+            <td>
+                <a href="/Session/Buy/@item.Id"><button class="btn btn-primary">Buy</button></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

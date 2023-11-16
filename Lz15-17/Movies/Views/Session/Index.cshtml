@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Movies.Models.Session>
+
+@{
+    ViewData["Title"] = "Sessions";
+}
+
+<h1>Sessions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				Movie
+			</th>
+            <th>
+                Time and Date
+            </th>
+            <th>
+                Hall
+            </th>
+            <th>
+                Price
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a href="/Session/MovieDetails/@item.Movie.Id">@item.Movie.Title</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeDate)
+            </td>
+            <td>
+                @item.Hall.Number
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                <a href="/Session/CreateTicket/@item.Id"><button>Pick a seat</button></a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
