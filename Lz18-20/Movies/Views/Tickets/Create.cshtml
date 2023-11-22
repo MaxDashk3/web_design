@@ -1,0 +1,57 @@
+﻿
+@model Movies.Models.Ticket
+
+@{
+    ViewData["Title"] = "Create Ticket";
+}
+
+<h1>Create a ticket</h1>
+
+<h4>Ticket</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <h4>Choose your seat:</h4>
+        <br />
+        <form action="/Tickets/Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input name="SessionId" value="@ViewBag.Session.Id" hidden />
+            </div>
+            <table class="col-12">
+                <tr>
+                    <th></th>
+                    @for (int i = 1; i <= ViewBag.Session.Hall.SeatsPerRow; i++)
+                    {
+                        <th>@i</th>
+                    }
+                </tr>
+                @for (int i = 1; i <= ViewBag.Session.Hall.Rows; i++)
+                {
+                    <tr class="col-12">
+                        <th>@i</th>
+                        @for (int n = 1; n <= ViewBag.Session.Hall.SeatsPerRow; n++)
+                        {
+                            <td>
+                                @foreach(var item in ViewBag.Tickets)
+                                {
+                                    
+                                }
+                                <input class="seat" type="radio" name="Seat" value="@i @n"
+                                @(ViewBag.TakenSeats.Contains($"{i} {n}") ? "disabled": "")   
+                                >
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+            <br />
+            <input type="submit" value="Submit" class="btn btn-primary"/>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/Session/Index">Back to List</a>
+</div>
+

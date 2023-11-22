@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Movies.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Tickets";
+}
+
+<h1>Tickets</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Movie
+            </th>
+            <th>
+                Date and time
+            </th>
+            <th>
+                Row
+            </th>
+            <th>
+                Seat
+            </th>
+            <th>
+                Hall
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Bought by
+            </th>
+            <th>
+                Time of purchase
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                <a href="/Movies/Details/@item.Session.Movie.Id">@item.Session.Movie.Title</a> 
+            </td>
+            <td>
+                @item.Session.TimeDate
+            </td>
+            <td>
+                @item.SeatRow
+            </td>
+            <td>
+                @item.SeatNum
+            </td>
+            <td>
+                @item.Session.Hall.Number
+            </td>
+            <td>
+                @item.Session.Price
+            </td>
+            @if(item.PurchaseId!= null)
+            {
+                <td>
+                    @item.Purchase.Person
+                </td>
+                <td>
+                    @item.Purchase.Date
+                </td>
+            }
+            else
+            {
+                <td>-</td>
+                <td>-</td>
+            }
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
