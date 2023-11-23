@@ -33,10 +33,6 @@
                         @for (int n = 1; n <= ViewBag.Session.Hall.SeatsPerRow; n++)
                         {
                             <td>
-                                @foreach(var item in ViewBag.Tickets)
-                                {
-                                    
-                                }
                                 <input class="seat" type="radio" name="Seat" value="@i @n"
                                 @(ViewBag.TakenSeats.Contains($"{i} {n}") ? "disabled": "")   
                                 >
