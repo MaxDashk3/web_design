@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Movies.Data;
 using Movies.Models;
+using Movies.ViewModels;
 
 namespace Movies.Controllers
 {
@@ -27,9 +28,10 @@ namespace Movies.Controllers
                 .Include("Tickets.Session")
                 .Include("Tickets.Session.Movie")
                 .Include("Tickets.Session.Hall")
+                .Select(p => new PurchaseViewModel(p))
                 .ToList();
 
-            return View(purchases);              
+            return View(purchases);
         }
 
         // GET: Purchases/Details/5
@@ -41,13 +43,16 @@ namespace Movies.Controllers
             }
 
             var purchase = await _context.Purchases
+                .Include(p => p.Tickets)
+                .Include("Tickets.Session.Movie")
+                .Include("Tickets.Session.Hall")
                 .FirstOrDefaultAsync(m => m.PurchaseId == id);
             if (purchase == null)
             {
                 return NotFound();
             }
 
-            return View(purchase);
+            return View(new PurchaseViewModel(purchase));
         }
 
         // GET: Purchases/Create
@@ -57,8 +62,9 @@ namespace Movies.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuyResult(Purchase purchase)
+        public IActionResult BuyResult(PurchaseViewModel model)
         {
+            var purchase = new Purchase(model);
             List<Ticket> tickets = _context.Tickets
             .Where(t => t.PurchaseId == null)
             .ToList();
@@ -80,14 +86,15 @@ namespace Movies.Controllers
         // POST: Purchases/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PurchaseId,Person,Address,Date")] Purchase purchase)
-        {
-            _context.Add(purchase);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(PurchaseViewModel model)
+        //{
+        //    var purchase = new Purchase(model);
+        //    _context.Add(purchase);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         // GET: Purchases/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -102,7 +109,7 @@ namespace Movies.Controllers
             {
                 return NotFound();
             }
-            return View(purchase);
+            return View(new PurchaseViewModel(purchase));
         }
 
         // POST: Purchases/Edit/5
@@ -110,8 +117,9 @@ namespace Movies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PurchaseId,Person,Address,Date")] Purchase purchase)
+        public async Task<IActionResult> Edit(int id, PurchaseViewModel model)
         {
+            var purchase = new Purchase(model);
             if (id != purchase.PurchaseId)
             {
                 return NotFound();
@@ -151,7 +159,7 @@ namespace Movies.Controllers
                 return NotFound();
             }
 
-            return View(purchase);
+            return View(new PurchaseViewModel(purchase));
         }
 
         // POST: Purchases/Delete/5

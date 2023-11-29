@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Movies.Models.Purchase>
+﻿@model IEnumerable<Movies.ViewModels.PurchaseViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -47,10 +47,7 @@
                                     Date and time
                                 </th>
                                 <th>
-                                    Row
-                                </th>
-                                <th>
-                                    Seat
+                                    Row and Seat
                                 </th>
                                 <th>
                                     Hall
@@ -66,22 +63,19 @@
                             {
                                 <tr>
                                     <td>
-                                        <a href="/Movies/Details/@t.Session.Movie.Id">@t.Session.Movie.Title</a>
+                                        <a href="/Movies/Details/@t.MovieId">@t.Movie</a>
                                     </td>
                                     <td>
-                                        @t.Session.TimeDate
+                                        @t.SessionTime
                                     </td>
                                     <td>
-                                        @t.SeatRow
+                                        @t.Seat
                                     </td>
                                     <td>
-                                        @t.SeatNum
+                                        @t.Hall
                                     </td>
                                     <td>
-                                        @t.Session.Hall.Number
-                                    </td>
-                                    <td>
-                                        @t.Session.Price
+                                        @t.Price
                                     </td>
                                     <td>
                                         <a asp-action="Delete" asp-route-id="@t.Id">Delete</a>
