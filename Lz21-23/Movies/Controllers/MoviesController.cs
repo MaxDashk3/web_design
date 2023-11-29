@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Movies.Data;
 using Movies.Models;
+using Movies.ViewModels;
 
 namespace Movies.Controllers
 {
@@ -22,7 +23,8 @@ namespace Movies.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Movies.Include(m => m.Genre);
+            var applicationDbContext = _context.Movies.Include(m => m.Genre)
+                .Select(m => new MovieViewModel(m));
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -38,7 +40,7 @@ namespace Movies.Controllers
 
                 return RedirectToAction("Index");
 
-            return View(movie);
+            return View(new MovieViewModel(movie));
         }
 
         // GET: Movies/Create
@@ -53,9 +55,9 @@ namespace Movies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Country,GenreId,Year")] Movie movie)
+        public async Task<IActionResult> Create(MovieViewModel model)
         {
-
+            var movie = new Movie(model);
             _context.Add(movie);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -75,7 +77,7 @@ namespace Movies.Controllers
                 return NotFound();
             }
             ViewBag.Genres = _context.Genres.ToList();
-            return View(movie);
+            return View(new MovieViewModel(movie));
         }
 
         // POST: Movies/Edit/5
@@ -83,8 +85,9 @@ namespace Movies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Country,GenreId,Year")] Movie movie)
+        public async Task<IActionResult> Edit(int id, MovieViewModel model)
         {
+            var movie = new Movie(model);
             if (id != movie.Id)
             {
                 return NotFound();
@@ -124,7 +127,7 @@ namespace Movies.Controllers
                 return NotFound();
             }
 
-            return View(movie);
+            return View(new MovieViewModel(movie));
         }
 
         // POST: Movies/Delete/5
