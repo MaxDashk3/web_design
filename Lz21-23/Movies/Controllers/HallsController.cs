@@ -58,9 +58,13 @@ namespace Movies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Number,Rows,SeatsPerRow")] Hall hall)
         {
-            _context.Add(hall);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _context.Add(hall);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
         }
 
         // GET: Halls/Edit/5
@@ -86,28 +90,32 @@ namespace Movies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Number,Rows,SeatsPerRow")] Hall hall)
         {
-            if (id != hall.Id)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-            try
-            {
-                _context.Update(hall);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HallExists(hall.Id))
+                if (id != hall.Id)
                 {
                     return NotFound();
                 }
-                else
+
+                try
                 {
-                    throw;
+                    _context.Update(hall);
+                    await _context.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HallExists(hall.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View(hall) ;
         }
 
         // GET: Halls/Delete/5

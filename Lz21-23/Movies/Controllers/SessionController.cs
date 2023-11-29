@@ -36,10 +36,16 @@ namespace Movies.Controllers
         [HttpPost]
         public IActionResult Create(SessionViewModel sessionViewModel)
         {
-            _db.Sessions.Add(new Session(sessionViewModel));
-            _db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                _db.Sessions.Add(new Session(sessionViewModel));
+                _db.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            ViewBag.Movies = _db.Movies.ToList();
+            ViewBag.Halls = _db.Halls.ToList();
+            return View();
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -67,27 +73,33 @@ namespace Movies.Controllers
         public async Task<IActionResult> Edit(int id, SessionViewModel vmodel)
         {
             var session = new Session(vmodel);
-            if (id != session.Id)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-            try
-            {
-                _db.Update(session);
-                await _db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SessionExists(session.Id))
+                if (id != session.Id)
                 {
                     return NotFound();
                 }
-                else
+                try
                 {
-                    throw;
+                    _db.Update(session);
+                    await _db.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SessionExists(session.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index)); 
+            ViewBag.Movies = _db.Movies.ToList();
+            ViewBag.Halls = _db.Halls.ToList();
+            return View(new SessionViewModel(session));
         }
 
         // GET: Sessions/Delete/5

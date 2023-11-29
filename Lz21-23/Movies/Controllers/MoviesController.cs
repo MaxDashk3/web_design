@@ -57,10 +57,15 @@ namespace Movies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(MovieViewModel model)
         {
-            var movie = new Movie(model);
-            _context.Add(movie);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                var movie = new Movie(model);
+                _context.Add(movie);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Genres = _context.Genres.ToList();
+            return View();
         }
 
         // GET: Movies/Edit/5
@@ -88,27 +93,33 @@ namespace Movies.Controllers
         public async Task<IActionResult> Edit(int id, MovieViewModel model)
         {
             var movie = new Movie(model);
-            if (id != movie.Id)
+
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
-            try
-            {
-                _context.Update(movie);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MovieExists(movie.Id))
+                if (id != movie.Id)
                 {
                     return NotFound();
                 }
-                else
+                try
                 {
-                    throw;
+                    _context.Update(movie);
+                    await _context.SaveChangesAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MovieExists(movie.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            ViewBag.Genres = _context.Genres.ToList();
+            return View(new MovieViewModel(movie));
         }
 
         // GET: Movies/Delete/5

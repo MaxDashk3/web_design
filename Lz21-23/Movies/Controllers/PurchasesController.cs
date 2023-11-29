@@ -62,41 +62,40 @@ namespace Movies.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuyResult(PurchaseViewModel model)
+        public IActionResult Create(PurchaseViewModel model)
         {
             var purchase = new Purchase(model);
-            List<Ticket> tickets = _context.Tickets
-            .Where(t => t.PurchaseId == null)
-            .ToList();
-
-            ViewBag.Name = purchase.Person;
             purchase.Date = DateTime.Now;
-            _context.Purchases.Add(purchase);
-            _context.SaveChanges();
-
-            foreach(var t in tickets)
+            if (ModelState.IsValid)
             {
-                t.PurchaseId = purchase.PurchaseId;
-                _context.Update(t);
+                List<Ticket> tickets = _context.Tickets
+                .Where(t => t.PurchaseId == null)
+                .ToList();
+
+                _context.Purchases.Add(purchase);
                 _context.SaveChanges();
+
+                foreach (var t in tickets)
+                {
+                    t.PurchaseId = purchase.PurchaseId;
+                    _context.Update(t);
+                    _context.SaveChanges();
+                }
+                return RedirectToAction("BuyResult", new {Person = purchase.Person});
             }
             return View();
         }
 
-        // POST: Purchases/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create(PurchaseViewModel model)
-        //{
-        //    var purchase = new Purchase(model);
-        //    _context.Add(purchase);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        public IActionResult BuyResult(string Person)
+        {
+            if (Person != null)
+            {
+                ViewBag.Name = Person;
+                return View();
+            }
+            return RedirectToAction("Index");
+        }
 
-        // GET: Purchases/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Purchases == null)

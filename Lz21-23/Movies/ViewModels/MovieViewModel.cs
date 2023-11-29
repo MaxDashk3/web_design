@@ -1,18 +1,27 @@
 ﻿using Movies.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movies.ViewModels
 {
     public class MovieViewModel
     {
         public MovieViewModel() { }
+
         public int Id { get; set; }
         public string? Genre { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
         public string Title { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
         public string Country { get; set; }
         public int GenreId { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [Range(1900, 2024, ErrorMessage = "The value has to be between 1900 and 2024")]
         public int Year { get; set; }
 
-        public List<SessionViewModel> Sessions { get; set; }
+        public List<SessionViewModel>? Sessions { get; set; }
 
         public MovieViewModel(Movie movie)
         {

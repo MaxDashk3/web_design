@@ -1,4 +1,5 @@
 ﻿using Movies.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movies.ViewModels
 {
@@ -7,11 +8,15 @@ namespace Movies.ViewModels
         public PurchaseViewModel() { }
 
         public int PurchaseId { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
         public string Person { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
         public string Address { get; set; }
         public DateTime Date { get; set; }
 
-        public List<TicketViewModel> Tickets { get; set; }
+        public List<TicketViewModel>? Tickets { get; set; }
 
         public PurchaseViewModel(Purchase purchase)
         {
