@@ -166,6 +166,9 @@ namespace Movies.Controllers
             var purchase = await _context.Purchases.FindAsync(id);
             if (purchase != null)
             {
+                var ticketsToRemove = _context.Tickets
+                    .Where(t => t.PurchaseId == purchase.PurchaseId).ToList();
+                _context.Tickets.RemoveRange(ticketsToRemove);
                 _context.Purchases.Remove(purchase);
             }
             

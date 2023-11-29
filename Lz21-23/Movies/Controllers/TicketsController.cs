@@ -31,28 +31,23 @@ namespace Movies.Controllers
 
             if (session != null)
             {
-                var tickets = session.Tickets.ToList();
-                var takenseats = new List<string>();
+                var sModel = new SessionViewModel(session);
+                var tickets = sModel.Tickets;
+                var takenseats = tickets.Select(t => new TicketViewModel(t))
+                    .Select(t => t.Seat)
+                    .ToList();
 
-                foreach (var t in tickets)
-                {
-                    takenseats.Add($"{t.SeatRow} {t.SeatNum}");
-                }
-
-                ViewBag.Tickets = tickets;
-                ViewBag.Session = session;
+                ViewBag.Hall = session.Hall;
+                ViewBag.SessionId = session.Id;
                 ViewBag.TakenSeats = takenseats;
                 return View();
             }
             return RedirectToAction("Index");
         }
         [HttpPost]
-        public IActionResult Create(int SessionId, string Seat)
+        public IActionResult Create(TicketViewModel model)
         {
-            var ticket = new Ticket();
-            ticket.SessionId = SessionId;
-            ticket.SeatRow = Convert.ToInt16(Seat.Remove(Seat.IndexOf(" ")));
-            ticket.SeatNum = Convert.ToInt16(Seat.Remove(0, Seat.IndexOf(" ")));
+            var ticket = new Ticket(model);
 
             _context.Tickets.Add(ticket);
             _context.SaveChanges();
@@ -93,59 +88,6 @@ namespace Movies.Controllers
             return View(ticket);
         }
 
-        // GET: Tickets/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Tickets == null)
-            {
-                return NotFound();
-            }
-
-            var ticket = await _context.Tickets.FindAsync(id);
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-            ViewData["SessionId"] = new SelectList(_context.Sessions, "Id", "Id", ticket.SessionId);
-            return View(ticket);
-        }
-
-        // POST: Tickets/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,SessionId,SeatRow,SeatNum")] Ticket ticket)
-        {
-            if (id != ticket.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(ticket);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TicketExists(ticket.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["SessionId"] = new SelectList(_context.Sessions, "Id", "Id", ticket.SessionId);
-            return View(ticket);
-        }
-
         // GET: Tickets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -156,13 +98,15 @@ namespace Movies.Controllers
 
             var ticket = await _context.Tickets
                 .Include(t => t.Session)
+                .ThenInclude(s => s.Movie)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ticket == null)
             {
                 return NotFound();
             }
+            var model = new TicketViewModel(ticket);
 
-            return View(ticket);
+            return View(model);
         }
 
         // POST: Tickets/Delete/5
