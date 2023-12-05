@@ -9,6 +9,8 @@ namespace Movies.ViewModels
         public int? PurchaseId { get; set; }
         public int SessionId { get; set; }
         public string Seat { get; set; }
+        public int SeatRow { get; set; }
+        public int SeatNum { get; set; }
 
         public string BoughtBy { get; set; }
         public DateTime DateOfPurchase { get; set; }
@@ -26,6 +28,8 @@ namespace Movies.ViewModels
             PurchaseId = ticket.PurchaseId;
             SessionId = ticket.SessionId;
             Seat = ticket.SeatRow.ToString() + " " + ticket.SeatNum.ToString();
+            SeatNum = ticket.SeatNum;
+            SeatRow = ticket.SeatRow;
 
             if (ticket.Purchase != null)
             {
