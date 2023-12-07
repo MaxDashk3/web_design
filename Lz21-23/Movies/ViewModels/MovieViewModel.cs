@@ -1,4 +1,5 @@
-﻿using Movies.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Movies.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace Movies.ViewModels
@@ -10,6 +11,7 @@ namespace Movies.ViewModels
         public int Id { get; set; }
         public string? Genre { get; set; }
 
+        [Remote(action: "CheckMovies", controller: "Data", ErrorMessage = "Title already exists!!!")]
         [Required(ErrorMessage = "This field is required")]
         public string Title { get; set; }
 
